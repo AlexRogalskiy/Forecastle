@@ -78,7 +78,7 @@ const SearchAppBar = ({ config, query, setQuery }) => {
       >
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
-            {config.title || "Forecastle - Sighup"}
+            {config.title || "Forecastle - SIGHUP"}
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>

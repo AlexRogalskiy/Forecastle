@@ -18,9 +18,9 @@ data:
     headerBackground: null
     headerForeground: null
     instanceName: null
-    crdEnabled: true
     namespaceSelector:
-      any: true
+      matchNames:
+      - stakater
     title: null
 ---
 # Source: forecastle/templates/crd.yaml
@@ -41,59 +41,59 @@ spec:
   preserveUnknownFields: false
   scope: Namespaced
   versions:
-  - name: v1alpha1
-    schema:
-      openAPIV3Schema:
-        type: object
-        properties:
-          apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation
+    - name: v1alpha1
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            apiVersion:
+              description: 'APIVersion defines the versioned schema of this representation
               of an object. Servers should convert recognized schemas to the latest
               internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
-            type: string
-          kind:
-            description: 'Kind is a string value representing the REST resource this
+              type: string
+            kind:
+              description: 'Kind is a string value representing the REST resource this
               object represents. Servers may infer this from the endpoint the client
               submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
-            type: string
-          metadata:
-            type: object
-          spec:
-            properties:
-              group:
-                type: string
-              icon:
-                type: string
-              instance:
-                type: string
-              name:
-                type: string
-              networkRestricted:
-                type: boolean
+              type: string
+            metadata:
+              type: object
+            spec:
               properties:
-                additionalProperties:
+                group:
                   type: string
-                type: object
-              url:
-                type: string
-              urlFrom:
+                icon:
+                  type: string
+                instance:
+                  type: string
+                name:
+                  type: string
+                networkRestricted:
+                  type: boolean
                 properties:
-                  ingressRef:
-                    type: object
-                  routeRef:
-                    type: object
-                type: object
-            required:
-            - name
-            - group
-            - icon
-            type: object
-          status:
-            type: object
-    served: true
-    storage: true
-    subresources:
-      status: {}
+                  additionalProperties:
+                    type: string
+                  type: object
+                url:
+                  type: string
+                urlFrom:
+                  properties:
+                    ingressRef:
+                      type: object
+                    routeRef:
+                      type: object
+                  type: object
+              required:
+                - name
+                - group
+                - icon
+              type: object
+            status:
+              type: object
+      served: true
+      storage: true
+      subresources:
+        status: {}
 ---
 # Source: forecastle/templates/deployment.yaml
 apiVersion: apps/v1
@@ -124,20 +124,20 @@ spec:
         provider: stakater
     spec:
       containers:
-      - env:
-        - name: KUBERNETES_NAMESPACE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.namespace
-        image: "stakater/forecastle:v1.0.67"
-        name: forecastle
-        volumeMounts:
-        - name: forecastle-config
-          mountPath: /etc/forecastle
-      volumes:
-      - name: forecastle-config
-        configMap:
+        - env:
+            - name: KUBERNETES_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          image: "stakater/forecastle:v1.0.67"
           name: forecastle
+          volumeMounts:
+            - name: forecastle-config
+              mountPath: /etc/forecastle
+      volumes:
+        - name: forecastle-config
+          configMap:
+            name: forecastle
       serviceAccountName: forecastle
 
 ---
@@ -172,15 +172,15 @@ metadata:
     release: "forecastle"
     heritage: "Tiller"
 rules:
-- apiGroups: ["", "route.openshift.io", "extensions"]
-  resources: ["ingresses", "routes", "namespaces"]
-  verbs: ["get", "list"]
-- apiGroups:
-  - forecastle.stakater.com
-  resources:
-  - '*'
-  verbs:
-  - '*'
+  - apiGroups: ["", "route.openshift.io", "extensions"]
+    resources: ["ingresses", "routes", "namespaces"]
+    verbs: ["get", "list"]
+  - apiGroups:
+      - forecastle.stakater.com
+    resources:
+      - '*'
+    verbs:
+      - '*'
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -199,9 +199,9 @@ roleRef:
   kind: ClusterRole
   name: forecastle-cluster-ingress-role
 subjects:
-- kind: ServiceAccount
-  name: forecastle
-  namespace: default
+  - kind: ServiceAccount
+    name: forecastle
+    namespace: default
 
 ---
 # Source: forecastle/templates/route.yaml
@@ -223,10 +223,10 @@ metadata:
   name: forecastle
 spec:
   ports:
-  - name: http
-    port: 80
-    protocol: TCP
-    targetPort: 3000
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 3000
   selector:
     app: forecastle
     group: com.stakater.platform

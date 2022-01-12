@@ -27,7 +27,7 @@ const Footer = () => {
           </Link>
           &nbsp;{"and forked by"}&nbsp;
           <Link color="inherit" href="https://sighup.io/">
-            Sighup
+            SIGHUP
           </Link>
         </Box>
       </Typography>
