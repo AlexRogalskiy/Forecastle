@@ -25,6 +25,10 @@ const Footer = () => {
           <Link color="inherit" href="https://stakater.com/">
             Stakater
           </Link>
+          &nbsp;{"and forked by"}&nbsp;
+          <Link color="inherit" href="https://sighup.io/">
+            Sighup
+          </Link>
         </Box>
       </Typography>
     </footer>

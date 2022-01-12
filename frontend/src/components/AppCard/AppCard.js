@@ -6,8 +6,18 @@ import AppCardHeader from "../AppCardHeader/AppCardHeader";
 import AppCardFooter from "../AppCardFooter/AppCardFooter";
 import AppCardContent from "../AppCardContent/AppCardContent";
 import AppCardDetails from "../AppCardDetails/AppCardDetails";
+import {makeStyles} from "@material-ui/core/styles";
+
+const useStyles = makeStyles(theme => ({
+    card: {
+        borderRadius: "8px",
+        boxShadow: "0 0.9px 4px -1px rgb(0 0 0 / 8%), 0 2.6px 8px -1px rgb(0 0 0 / 6%), 0 5.7px 12px -1px rgb(0 0 0 / 5%), 0 15px 15px -1px rgb(0 0 0 / 4%)"
+    }
+}))
 
 const AppCard = ({ card }) => {
+  const classes = useStyles();
+
   const [isDetailsExpanded, SetIsDetailsExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -19,7 +29,7 @@ const AppCard = ({ card }) => {
   };
 
   return (
-    <Card>
+    <Card className={classes.card}>
       <AppCardHeader
         name={card.name}
         url={card.url}

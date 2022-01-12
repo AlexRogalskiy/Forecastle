@@ -1,32 +1,47 @@
-import React, { useEffect } from "react";
-import { connect } from "react-redux";
+import React, {useEffect} from "react";
+import {connect} from "react-redux";
 
 import AppList from "../AppList/AppList";
-import { SearchAppBar, Footer } from "../../components";
+import {SearchAppBar, Footer} from "../../components";
 import * as configStore from "../../redux/app/configModule";
+import {createMuiTheme, CssBaseline, MuiThemeProvider} from "@material-ui/core";
 
-const App = ({ loadConfig }) => {
-  useEffect(() => {
-    loadConfig();
-  }, [loadConfig]);
+const theme = createMuiTheme({
+    typography: {
+        fontFamily: 'Poppins, sans-serif',
+    },
+    palette: {
+        primary: {
+            main: "#68288C"
+        }
+    },
+});
 
-  return (
-    <React.Fragment>
-      <SearchAppBar />
-      <AppList />
+const App = ({loadConfig}) => {
+    useEffect(() => {
+        loadConfig();
+    }, [loadConfig]);
 
-      {/* Footer */}
-      <Footer />
-      {/* End footer */}
-    </React.Fragment>
-  );
+    return (
+        <React.Fragment>
+            <MuiThemeProvider theme={theme}>
+                <CssBaseline/>
+                <SearchAppBar/>
+                <AppList/>
+
+                {/* Footer */}
+                <Footer/>
+                {/* End footer */}
+            </MuiThemeProvider>
+        </React.Fragment>
+    );
 };
 
 const mapDispatchToProps = dispatch => ({
-  loadConfig: () => dispatch(configStore.loadConfig())
+    loadConfig: () => dispatch(configStore.loadConfig())
 });
 
 export default connect(
-  null,
-  mapDispatchToProps
+    null,
+    mapDispatchToProps
 )(App);

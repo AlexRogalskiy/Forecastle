@@ -17,6 +17,7 @@ const useStyles = makeStyles(theme => ({
   title: {
     flexGrow: 1,
     display: "none",
+    fontWeight: "700",
     [theme.breakpoints.up("sm")]: {
       display: "block"
     }
@@ -72,13 +73,12 @@ const SearchAppBar = ({ config, query, setQuery }) => {
       <AppBar
         position="static"
         style={{
-          backgroundColor: config.headerBackground || "#3f51b5",
           color: config.headerForeground || "white"
         }}
       >
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
-            {config.title || "Forecastle - Stakater"}
+            {config.title || "Forecastle - Sighup"}
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>

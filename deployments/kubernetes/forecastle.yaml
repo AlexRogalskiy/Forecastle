@@ -18,9 +18,9 @@ data:
     headerBackground: null
     headerForeground: null
     instanceName: null
+    crdEnabled: true
     namespaceSelector:
-      matchNames:
-      - stakater
+      any: true
     title: null
 ---
 # Source: forecastle/templates/crd.yaml
